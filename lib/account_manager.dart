@@ -16,7 +16,7 @@ class AccountManager extends UserAccountsDrawerHeader {
 }
 
 class AccountManagerPage extends StatefulWidget {
-  static String tag='account-page';
+  static String tag='account-page-manager';
 
   @override
   _AccountManagerPageState createState() => _AccountManagerPageState();
