@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_bar.dart';
+import 'listproduct_page.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
@@ -89,9 +90,9 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () {
 
-                ///ouvrir un nouvelle evenement
+                ///ouvrir la page de creation d'un nouvelle evenement
+                //Navigator.of(context).pushNamed(ListProduct.tag);
 
-                print("creer nouveau event");
               },
             );
           }
@@ -127,7 +128,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-                print("info fetes");
+                /// Aller sur la page des produits de l'evenement
+                Navigator.of(context).pushNamed(ListProduct.tag);
               }
           );
         },
