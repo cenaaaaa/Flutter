@@ -396,6 +396,28 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
         backgroundColor: Color.fromRGBO(52, 59, 69, 1),
+        appBar: new AppBar(
+          leading: Icon(Icons.access_time, color: Colors.transparent),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          actions: <Widget>[
+            // action button
+            new IconButton(
+                color: Colors.blueGrey,
+                splashColor: Colors.blueGrey,
+                tooltip: "Details sur l'application",
+                icon: tap ? new Icon(Icons.info_outline) : new Icon(Icons.info),
+                iconSize: 35.0,
+                onPressed: () {
+                  setState(() {
+                    tap = true;
+                  });
+                  _showDialog();
+                }),
+          ],
+        ),
+
+
         body: Center(
           child: Form(
             key: this._formKey,
