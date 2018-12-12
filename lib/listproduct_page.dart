@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'product_page.dart';
+import 'home_page.dart';
 
 class ListProduct extends StatelessWidget {
   static String tag ='List-Product';
+  static int numberCount=10;
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
             appBar: new AppBar(
+              /// Créer un Inkwell qui retourne vers la page de list event
+              leading: InkWell(
+                child: Icon(Icons.keyboard_return),
+                onTap: () => Navigator.of(context).pushNamed(HomePage.tag),
+              ),
               title: new Text('La mega teuf'),
             ),
             body: new Container(
@@ -15,9 +22,14 @@ class ListProduct extends StatelessWidget {
               color: Color.fromRGBO(52, 59, 69, 1),
               padding: EdgeInsets.all(8.0),
               child: new ListView.builder(
-                  itemCount: 10,
+                  itemCount: numberCount,
                   itemBuilder:(BuildContext context , int i){
-                    //return _buidRow(i);
+                    if(i == numberCount-1){
+                      return ListTile(
+                        title: Icon(Icons.add),
+                        onTap: () {},
+                      );
+                    }
                     return Column(
                       children: <Widget>[
                         _buidRow(context,i),
