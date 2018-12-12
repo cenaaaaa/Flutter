@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
       "Fêtes Organisées :",
       textAlign: TextAlign.left,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 24,
         color: Colors.blueGrey,
       ),
     );
@@ -65,7 +65,15 @@ class _HomePageState extends State<HomePage> {
                 child: Card(
                     color: Colors.blueGrey,
                     child: Container(
-                      child: Column(children: [
+                      child: GridTile(
+                        footer: GridTileBar(
+                          backgroundColor: Colors.black87,
+                          title: Text("Créer une soirée" ,textAlign: TextAlign.center),
+                        ) ,
+                        child: Image.network('https://t4.ftcdn.net/jpg/00/18/10/11/500_F_18101190_MPwhgdRKNRFmoOluwzxn7epEB0496pGJ.jpg'),
+                      )
+
+                      /*Column(children: [
                         Expanded(
                           child: Image.network(
                             'https://t4.ftcdn.net/jpg/00/18/10/11/500_F_18101190_MPwhgdRKNRFmoOluwzxn7epEB0496pGJ.jpg',
@@ -76,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                           "Creer Nouveau Event",
                           style: TextStyle(color: Colors.white),
                         ),
-                      ]),
+                      ]),*/
                     )),
                 padding: EdgeInsets.only(
                     left: 15.0, right: 15.0, bottom: 15.0, top: 15.0),
@@ -101,7 +109,15 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 child: Card(
                     color: Colors.blueGrey,
-                    child: Container(
+                    child: GridTile(
+                      footer: GridTileBar(
+                        backgroundColor: Colors.black87,
+                        title: Text("Méga teuf" ,textAlign: TextAlign.center, style: TextStyle(fontSize: 15)),
+                      ) ,
+                      child: Image.network('http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040'),
+                    )
+
+                  /*Container(
                       child: Column(children: [
                         Expanded(
                           child: Image.network(
@@ -115,8 +131,10 @@ class _HomePageState extends State<HomePage> {
                               ")",
                           style: TextStyle(color: Colors.white),
                         ),
-                      ]),
-                    )),
+                      ]
+                      ),
+                    )*/
+                ),
                 padding: EdgeInsets.only(
                     left: 15.0, right: 15.0, bottom: 15.0, top: 15.0),
                 decoration: BoxDecoration(
@@ -124,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                     new BoxShadow(
                         color: Colors.black54,
                         blurRadius: 10.0,
-                        spreadRadius: -5.0)
+                        spreadRadius: -15.0)
                   ],
                 ),
               ),
@@ -143,6 +161,7 @@ class _HomePageState extends State<HomePage> {
       color: Color.fromRGBO(62, 71, 80, 1),
       child: Column(children: <Widget>[
         soireeOrganise,
+        SizedBox(height: 20.0),
         Expanded(
           child: feteOrgan,
         ),

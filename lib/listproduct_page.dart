@@ -61,8 +61,8 @@ class ListProduct extends StatelessWidget {
 
   Widget _buidRow( BuildContext context ,int idx){
     return ListTile(
-      leading: new Image.asset(
-        'images/coca.jpg',
+      leading: new Image.network(
+        'http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040',
         width: 50.0,
         height: 50.0,
       ),
