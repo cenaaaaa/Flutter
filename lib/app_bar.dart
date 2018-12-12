@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'login_page.dart';
 import 'home_page.dart';
+import 'account_manager.dart';
 
 class AppBarScaffold extends StatelessWidget {
 
@@ -60,7 +61,7 @@ class AppBarScaffold extends StatelessWidget {
                       child: Text('Mon compte',style:TextStyle(color: Colors.blueGrey, fontSize: 36)),
                       onTap:()
                       {
-                        //Navigator.of(context).pushNamed(LoginPage.tag);
+                        Navigator.of(context).pushNamed(AccountManagerPage.tag);
                       }
                   ),
                 ),
