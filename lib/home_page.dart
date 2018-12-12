@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_bar.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-                ///ouvrir un nouvelle evenement 
+                ///ouvrir un nouvelle evenement
                 print("creer nouveau event");
               },
             );
@@ -143,16 +144,9 @@ class _HomePageState extends State<HomePage> {
       ]),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Accueil",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 35,
-            )),
-        backgroundColor: Colors.orange,
-      ),
+    return AppBarScaffold(
       body: body,
+      title: "Home Page" ,
     );
   }
 }

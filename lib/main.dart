@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'login_page.dart';
 import 'home_page.dart';
 import 'account_page.dart';
+import 'app_bar.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
     LoginPage.tag: (context) => LoginPage(),
     HomePage.tag: (context) => HomePage(),
     AccountPage.tag: (context) => AccountPage(),
+    AppBarScaffold.tag:(context) => AppBarScaffold(),
   };
 
   @override
