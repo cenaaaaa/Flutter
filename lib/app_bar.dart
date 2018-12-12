@@ -38,6 +38,7 @@ class AppBarScaffold extends StatelessWidget {
                     )
                 ),
               ),
+              Text("User Name",style:TextStyle(color: Colors.blueGrey, fontSize: 24)),
               Divider(
                 color: Color.fromRGBO(243, 146, 26, 1),
               ),
