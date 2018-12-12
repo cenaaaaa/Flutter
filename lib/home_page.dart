@@ -1,53 +1,157 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static String tag = 'home-page';
 
   @override
+  _HomePageState createState() => new _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool tap = false;
+  bool divide = false;
+  final int nombreFetePerLigne = 2;
+  int idUser = 2;
+  static List soireeOrgUser = [1, 1, 2, 2, 5, 4, 3, 1, 8];
+  int longueur = soireeOrgUser.length;
+
+  List tri() {
+    for (int i = 0; i < longueur; i++)
+      if (soireeOrgUser[i] == idUser) {
+        soireeOrgUser[i] = 0;
+      }
+    soireeOrgUser.sort();
+    for (int i = 0; i < longueur; i++) {
+      if (soireeOrgUser[i] == 0) soireeOrgUser[i] = idUser;
+    }
+    return soireeOrgUser;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final user = Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.all(15.0),
-        child: CircleAvatar(
-          radius: 70.0,
-          backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage('assets/male.png'),
-        ),
+    final appbar = AppBar(
+      title: Text("Accueil",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 35,
+          )),
+      backgroundColor: Colors.orange,
+    );
+
+    final soireeOrganise = Text(
+      "Fêtes Organisées :",
+      textAlign: TextAlign.left,
+      style: TextStyle(
+        fontSize: 20,
+        color: Colors.blueGrey,
       ),
     );
 
-    final welcome = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        'Bienvenue',
-        style: TextStyle(fontSize: 28.0, color: Colors.white),
-      ),
-    );
-
-    final lorem = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit condimentum mauris id tempor. Praesent eu commodo lacus. Praesent eget mi sed libero eleifend tempor. Sed at fringilla ipsum. Duis malesuada feugiat urna vitae convallis. Aliquam eu libero arcu.',
-        style: TextStyle(fontSize: 16.0, color: Colors.white),
+    final feteOrgan = Container(
+      child: GridView.builder(
+        shrinkWrap: true,
+        primary: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: nombreFetePerLigne),
+        itemCount: longueur + 1,
+        itemBuilder: (context, index) {
+          soireeOrgUser = tri();
+          if (index == longueur) {
+            return new GestureDetector(
+              child: Container(
+                child: Card(
+                    color: Colors.blueGrey,
+                    child: Container(
+                      child: Column(children: [
+                        Expanded(
+                          child: Image.network(
+                            'https://t4.ftcdn.net/jpg/00/18/10/11/500_F_18101190_MPwhgdRKNRFmoOluwzxn7epEB0496pGJ.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Creer Nouveau Event",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ]),
+                    )),
+                padding: EdgeInsets.only(
+                    left: 15.0, right: 15.0, bottom: 15.0, top: 15.0),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 10.0,
+                        spreadRadius: -5.0)
+                  ],
+                ),
+              ),
+              onTap: () {
+                ///ouvrir un nouvelle evenement 
+                print("creer nouveau event");
+              },
+            );
+          }
+          return new GestureDetector(
+              child: Container(
+                child: Card(
+                    color: Colors.blueGrey,
+                    child: Container(
+                      child: Column(children: [
+                        Expanded(
+                          child: Image.network(
+                            'https://image.freepik.com/icones-gratuites/menu-bouton-circulaire_318-67927.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Event name (user " +
+                              soireeOrgUser[index].toString() +
+                              ")",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ]),
+                    )),
+                padding: EdgeInsets.only(
+                    left: 15.0, right: 15.0, bottom: 15.0, top: 15.0),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 10.0,
+                        spreadRadius: -5.0)
+                  ],
+                ),
+              ),
+              onTap: () {
+                print("info fetes");
+              }
+          );
+        },
       ),
     );
 
     final body = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(28.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Colors.blue,
-          Colors.lightBlueAccent,
-        ]),
-      ),
-      child: Column(
-        children: <Widget>[user, welcome, lorem],
-      ),
+      color: Color.fromRGBO(62, 71, 80, 1),
+      child: Column(children: <Widget>[
+        soireeOrganise,
+        Expanded(
+          child: feteOrgan,
+        ),
+      ]),
     );
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Accueil",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 35,
+            )),
+        backgroundColor: Colors.orange,
+      ),
       body: body,
     );
   }

@@ -353,7 +353,8 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       color: Theme.of(context).primaryColor,
       onPressed: () {
-        this.submit();
+        Navigator.of(context).pushNamed(HomePage.tag);
+        //this.submit();
       },
       splashColor: Colors.orangeAccent,
     );
