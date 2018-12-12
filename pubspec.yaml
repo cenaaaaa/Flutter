@@ -34,7 +34,7 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-  - assets/logo.png
+  - assets/logocasa.svg
   - assets/male.png
 
   # The following line ensures that the Material Icons font is
