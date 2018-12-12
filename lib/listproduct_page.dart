@@ -61,10 +61,21 @@ class ListProduct extends StatelessWidget {
 
   Widget _buidRow( BuildContext context ,int idx){
     return ListTile(
-      leading: new Image.network(
+      leading: /*new Image.network(
         'http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040',
         width: 50.0,
         height: 50.0,
+      ),*/
+      new Container(
+        width: 50.0,
+        height: 50.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: new DecorationImage(
+              fit: BoxFit.fill,
+              image: NetworkImage('http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040')
+          )
+        ),
       ),
       title: Text('Coca',
         style: TextStyle(fontSize: 20.0, color: Colors.blueGrey[300]),
