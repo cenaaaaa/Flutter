@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_bar.dart';
 import 'listproduct_page.dart';
+import 'creationSoiree_page.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
 
                 ///ouvrir la page de creation d'un nouvelle evenement
-                //Navigator.of(context).pushNamed(ListProduct.tag);
+                Navigator.of(context).pushNamed(CreationSoireePage.tag);
 
               },
             );

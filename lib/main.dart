@@ -10,6 +10,7 @@ import 'app_bar.dart';
 import 'listproduct_page.dart';
 import 'product_page.dart';
 import 'account_manager.dart';
+import 'creationSoiree_page.dart';
 
 
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     ListProduct.tag:(context) => ListProduct(),
     ProductPage.tag:(context)=> ProductPage(),
     AccountManagerPage.tag:(context) => AccountManagerPage(),
+    CreationSoireePage.tag:(context) => CreationSoireePage(),
   };
 
   @override
