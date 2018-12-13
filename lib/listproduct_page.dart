@@ -32,10 +32,7 @@ class ListProduct extends StatelessWidget {
                     }
                     return Column(
                       children: <Widget>[
-                        _buidRow(context,i),
-                        Divider(
-                          color: Colors.orange,
-                        ),
+                        _buidRow(context,i)
                       ],
                     );
                   }
@@ -58,33 +55,78 @@ class ListProduct extends StatelessWidget {
         );
   }
 
+  final ImageCircle = new Container(
+    height: 75.0,
+    width: 75.0,
+    margin: new EdgeInsets.symmetric(
+        vertical: 12.5
+    ),
+    alignment: FractionalOffset.centerLeft,
+    decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+            fit: BoxFit.fill,
+            image: NetworkImage('http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040')
+        )
+    ),
+  );
+
+  final planetCard = new Container(
+      height: 100.0,
+      margin: new EdgeInsets.only(left: 46.0),
+      decoration: new BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: new BorderRadius.circular(8.0),
+        boxShadow: <BoxShadow>[
+          new BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10.0,
+            offset: new Offset(0.0, 10.0),
+          ),
+        ],
+      ),
+
+      child: Container(
+          margin: new EdgeInsets.fromLTRB(50.0, 16.0, 16.0, 16.0),
+
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text('Produit',style: TextStyle(fontSize: 15.0) ),
+                new Container(height: 5.0),
+                new Container(
+                    margin: new EdgeInsets.symmetric(vertical: 8.0),
+                    height: 2.0, width: 108.0,
+                    color: new Color.fromRGBO(52, 59, 69, 1)
+                ),
+                new Container(height: 5.0),
+                new Row(
+                  children: <Widget>[
+                    new Text('Quantité restante',style: TextStyle(fontSize: 15.0)),
+                    new Container(width: 24.0),
+                    new Text("15/15",style: TextStyle(fontSize: 15.0)),
+                  ],
+                ),
+              ]
+          )
+      )
+  );
+
 
   Widget _buidRow( BuildContext context ,int idx){
-    return ListTile(
-      leading: /*new Image.network(
-        'http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040',
-        width: 50.0,
-        height: 50.0,
-      ),*/
-      new Container(
-        width: 50.0,
-        height: 50.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: new DecorationImage(
-              fit: BoxFit.fill,
-              image: NetworkImage('http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040')
+    return InkWell(
+      child: Container(
+          margin: const EdgeInsets.symmetric(
+              vertical: 16.0,
+              horizontal: 24.0
+          ),
+          child: new Stack(
+            children: <Widget>[
+              planetCard,
+              ImageCircle,
+            ],
           )
-        ),
-      ),
-      title: Text('Coca',
-        style: TextStyle(fontSize: 20.0, color: Colors.blueGrey[300]),
-      ),
-      trailing: Column(
-        children: [
-          Text('Qte:',style: TextStyle(fontSize: 15.0, color: Colors.blueGrey[300]),),
-          Text('15',style: TextStyle(fontSize: 15.0, color: Colors.blueGrey[300]),)
-        ],
       ),
       onTap: () => Navigator.of(context).pushNamed(ProductPage.tag),
 
