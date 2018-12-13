@@ -16,6 +16,9 @@ class ListProduct extends StatelessWidget {
                 onTap: () => Navigator.of(context).pushNamed(HomePage.tag),
               ),
               title: new Text('La mega teuf'),
+              actions: <Widget>[
+                buildShowDialog(),
+              ],
             ),
             body: new Container(
               //height: 500.0,
@@ -133,4 +136,74 @@ class ListProduct extends StatelessWidget {
     );
 
   }
+
 }
+
+class buildShowDialog extends StatefulWidget {
+  @override
+  _buildShowDialogState createState() => _buildShowDialogState();
+}
+
+class _buildShowDialogState extends State<buildShowDialog> {
+  bool tap;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon:Icon(Icons.local_play),
+        iconSize: 35.0,
+        color: Colors.white,
+        onPressed: (){
+          setState(() {
+            tap = true;
+          });
+
+          showDialog<String>(
+            context: context,
+            // barrierColor: Colors.black54,
+            //barrierColor: Color.fromRGBO(52, 59, 69, 1),
+
+            builder: (BuildContext context)=> SimpleDialog(
+              //title: const Text('Information sur la Soiree'),
+
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(0),
+                  child:Image.network(
+                    'https://raw.githubusercontent.com/flutter/website/master/src/_includes/code/layout/lakes/images/lake.jpg',
+                    height: 250,
+                    width: 250,
+                  ),
+
+                ),
+                ListTile(
+                  leading: Icon(Icons.calendar_today,color: Colors.blueGrey,),
+                  title: Text('Le : 13/12/2018',
+                      style:TextStyle(fontSize: 16.0, color: Colors.blueGrey,)
+                  ),
+                  trailing: Text('à : 20H00',
+                      style:TextStyle(fontSize: 16.0, color: Colors.blueGrey,)
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.location_on,color: Colors.blueGrey,),
+                  title: Text('23 rue genial, 59300 Valenciennes',
+                      style:TextStyle(fontSize: 16.0, color: Colors.blueGrey,)),
+                ),
+                ListTile(
+                  leading: Icon(Icons.announcement,color: Colors.blueGrey,),
+                  title: Text('Oublier pas de ramener ce qui faut pour bien profiter de la soiree',
+                      style:TextStyle(fontSize: 16.0, color: Colors.blueGrey,)),
+                ),
+
+              ],
+            ),
+          );
+
+        }
+      //child: Text("Show dialog"),
+    );
+
+  }
+}
+
