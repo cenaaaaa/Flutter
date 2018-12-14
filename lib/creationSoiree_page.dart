@@ -171,7 +171,7 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     final timeButton = new RaisedButton.icon(
       color: Color.fromRGBO(62, 71, 80, 1),
       label: Text(
-        "Heure Début : " +
+        "Heure : " +
             _time.hour.toString() +
             ":" +
             _time.minute.toString(),

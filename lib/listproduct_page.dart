@@ -20,7 +20,8 @@ class ListProduct extends StatelessWidget {
               ),
               title: new Text('La mega teuf'),
               actions: <Widget>[
-                buildShowDialog(),
+                Theme(data: ThemeData(dialogBackgroundColor: Color.fromRGBO(52, 59, 69, 1)), child: buildShowDialog())
+//                buildShowDialog(),
               ],
             ),
             body: new Container(
