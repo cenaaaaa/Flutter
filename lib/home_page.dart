@@ -5,6 +5,7 @@ import 'creationSoiree_page.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
+  static final HomeKey = new GlobalKey<_HomePageState>();
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -14,18 +15,19 @@ class _HomePageState extends State<HomePage> {
   bool tap = false;
   bool divide = false;
   final int nombreFetePerLigne = 2;
-  int idUser = 2;
+  int _idUser = 2;
+  int get idUser => _idUser;
   static List soireeOrgUser = [1, 1, 2, 2, 5, 4, 3, 1, 8];
   int longueur = soireeOrgUser.length;
 
   List tri() {
     for (int i = 0; i < longueur; i++)
-      if (soireeOrgUser[i] == idUser) {
+      if (soireeOrgUser[i] == _idUser) {
         soireeOrgUser[i] = 0;
       }
     soireeOrgUser.sort();
     for (int i = 0; i < longueur; i++) {
-      if (soireeOrgUser[i] == 0) soireeOrgUser[i] = idUser;
+      if (soireeOrgUser[i] == 0) soireeOrgUser[i] = _idUser;
     }
     return soireeOrgUser;
   }
@@ -98,7 +100,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-
                 ///ouvrir la page de creation d'un nouvelle evenement
                 Navigator.of(context).pushNamed(CreationSoireePage.tag);
 

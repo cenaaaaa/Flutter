@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'product_page.dart';
 import 'home_page.dart';
+import 'creationSoiree_page.dart';
 
 class ListProduct extends StatelessWidget {
+
   static String tag ='List-Product';
   static int numberCount=10;
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +163,8 @@ class _buildShowDialogState extends State<buildShowDialog> {
 
           showDialog<String>(
             context: context,
-            // barrierColor: Colors.black54,
+            barrierDismissible: false,
+            //barrierColor: Colors.black54,
             //barrierColor: Color.fromRGBO(52, 59, 69, 1),
 
             builder: (BuildContext context)=> SimpleDialog(
@@ -174,7 +178,6 @@ class _buildShowDialogState extends State<buildShowDialog> {
                     height: 250,
                     width: 250,
                   ),
-
                 ),
                 ListTile(
                   leading: Icon(Icons.calendar_today,color: Colors.blueGrey,),
@@ -195,6 +198,16 @@ class _buildShowDialogState extends State<buildShowDialog> {
                   title: Text('Oublier pas de ramener ce qui faut pour bien profiter de la soiree',
                       style:TextStyle(fontSize: 16.0, color: Colors.blueGrey,)),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("OK", style: Theme.of(context).textTheme.button), // style pour ne pas qu'il soit transparent
+                      color: Colors.orange, // couleur du bouton
+                      onPressed: () => Navigator.pop(context), // Retourner a la page precedente
+                    )
+                  ],
+                )
 
               ],
             ),

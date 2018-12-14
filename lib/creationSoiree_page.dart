@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 
 class CreationSoireePage extends StatefulWidget {
   static String tag = 'creaSoiree-page';
-
   @override
   _CreationSoireeState createState() => new _CreationSoireeState();
 }
 
 class _CreationSoireeState extends State<CreationSoireePage> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = new GlobalKey<FormState>();
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
   int userId = 4;
@@ -205,7 +204,7 @@ class _CreationSoireeState extends State<CreationSoireePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               dateButton,
-              SizedBox(width: 50),
+              SizedBox(width: 40),
               timeButton,
             ],
           ),
