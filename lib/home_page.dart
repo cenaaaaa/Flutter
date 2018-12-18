@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
     final body = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(28.0),
-      color: Color.fromRGBO(62, 71, 80, 1),
+      color: Color.fromRGBO(52, 59, 69, 1),
       child: Column(children: <Widget>[
         soireeOrganise,
         SizedBox(height: 20.0),

@@ -1,21 +1,29 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+
+//GOOGLE API KEY =  AIzaSyCexAj9Vx_1jyaj_GRjcabvHutIOx-diCQ
+const googleApiKey = "AIzaSyCexAj9Vx_1jyaj_GRjcabvHutIOx-diCQ";
 
 class CreationSoireePage extends StatefulWidget {
   static String tag = 'creaSoiree-page';
+
   @override
   _CreationSoireeState createState() => new _CreationSoireeState();
 }
 
 class _CreationSoireeState extends State<CreationSoireePage> {
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   DateTime _date = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
   int userId = 4;
-  var _controller1 =
-  new TextEditingController(); //Controller pour le nom de Soirée
-  var _controller2 = new TextEditingController(); //Controller pour les comments
+  var _controller1 = new TextEditingController(
+      text: "Nom de la Soiree"); //Controller pour le nom de Soirée
+  var _controller2 = new TextEditingController(
+      text: "Commentaires"); //Controller pour les comments
+  var _controller3 = new TextEditingController(text: "Adresse");
+  var _controller4 = new TextEditingController(text: "recherche Produit");
   static List products = ['produit1', 'produit2'];
   static List invites = ['ami1', 'ami2'];
   Map data = new HashMap();
@@ -33,14 +41,14 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     return "aa";
   }*/
 
-  final List<dynamic> elementList = ["a", "b", "c", "d","e"];
-  final List<dynamic> elementList2 = ["1", "2", "3", "4","5"];
+  final List<dynamic> elementList = ["a", "b", "c", "d", "e"];
+  final List<dynamic> elementList2 = ["1", "2", "3", "4", "5"];
 
   List<Widget> _getChildren() {
     List<Widget> children = [];
-    for(int i = 0; i < elementList.length;i++) {
+    for (int i = 0; i < elementList.length; i++) {
       children.add(
-        new MyExpansionTile(elementList[i],elementList2[i]),
+        new MyExpansionTile(elementList[i], elementList2[i]),
       );
     }
     return children;
@@ -48,8 +56,6 @@ class _CreationSoireeState extends State<CreationSoireePage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     final listeProduit = ListView(
       shrinkWrap: true,
       children: _getChildren(),
@@ -94,6 +100,43 @@ class _CreationSoireeState extends State<CreationSoireePage> {
         hintStyle: TextStyle(color: Colors.blueGrey),
         labelStyle: TextStyle(color: Colors.blueGrey),
         contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+        border: OutlineInputBorder(),
+      ),
+    );
+
+    final location = PlacesAutocompleteFormField(
+        apiKey: googleApiKey,
+        controller: _controller3,
+        language: "Fr",
+        inputDecoration: InputDecoration(
+          fillColor: Color.fromRGBO(62, 71, 80, 1),
+          filled: true,
+          prefixIcon: Icon(
+            Icons.person,
+            color: Colors.blueGrey,
+          ),
+          labelText: 'Adresse',
+          hintText: '...',
+          hintStyle: TextStyle(color: Colors.blueGrey),
+          labelStyle: TextStyle(color: Colors.blueGrey),
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(),
+        ));
+
+    final nomProduit = TextFormField(
+      controller: _controller4,
+      decoration: InputDecoration(
+        fillColor: Color.fromRGBO(62, 71, 80, 1),
+        filled: true,
+        prefixIcon: Icon(
+          Icons.person,
+          color: Colors.blueGrey,
+        ),
+        labelText: 'Nom de Produit',
+        hintText: 'Bière',
+        hintStyle: TextStyle(color: Colors.blueGrey),
+        labelStyle: TextStyle(color: Colors.blueGrey),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(),
       ),
     );
@@ -171,10 +214,7 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     final timeButton = new RaisedButton.icon(
       color: Color.fromRGBO(62, 71, 80, 1),
       label: Text(
-        "Heure : " +
-            _time.hour.toString() +
-            ":" +
-            _time.minute.toString(),
+        "Heure : " + _time.hour.toString() + ":" + _time.minute.toString(),
         style: TextStyle(color: Colors.blueGrey),
       ),
       onPressed: _selectTime,
@@ -184,7 +224,7 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     final dateButton = new RaisedButton.icon(
       color: Color.fromRGBO(62, 71, 80, 1),
       label: Text(
-        "Date : " + _date.day.toString() + "/" + _date.month.toString(),
+        "Date: " + _date.day.toString() + "/" + _date.month.toString(),
         style: TextStyle(color: Colors.blueGrey),
       ),
       onPressed: _selectDate,
@@ -195,31 +235,30 @@ class _CreationSoireeState extends State<CreationSoireePage> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          SizedBox(height: 48.0),
+          SizedBox(height: 36.0),
           nomSoiree,
           SizedBox(height: 8.0),
           commentaire,
-          SizedBox(height: 20.0),
+          SizedBox(height: 16.0),
+          location,
+          SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               dateButton,
-              SizedBox(width: 40),
+              SizedBox(width: 25),
               timeButton,
             ],
           ),
-          /*Expanded(
+          // nomProduit,
+          Expanded(
             child: listeProduit,
-          ),*/
+          ),
           ajoutProduit,
-          new Divider(),
           /*Expanded(
             child: listeAmi,
           ),*/
           ajoutInvite,
-          Expanded(
-            child: listeProduit,
-          ),
           RaisedButton(
               color: Colors.orange,
               onPressed: () {
@@ -248,6 +287,7 @@ class _CreationSoireeState extends State<CreationSoireePage> {
                       ":00";
                   data["products"] = products;
                   data["invites"] = invites;
+                  data["adresse"] = _controller3.text;
                   data.forEach(iterateMapEntry);
                 }
               },
@@ -285,7 +325,7 @@ class MyExpansionTile extends StatefulWidget {
   final String did;
   final String name;
 
-  MyExpansionTile(this.did,this.name);
+  MyExpansionTile(this.did, this.name);
 
   @override
   State createState() => new MyExpansionTileState();
@@ -293,25 +333,117 @@ class MyExpansionTile extends StatefulWidget {
 
 class MyExpansionTileState extends State<MyExpansionTile> {
   PageStorageKey _key;
+  int value = 0;
+  bool valueCheck = false;
+
+  void _value1Changed(bool value) => setState(() => valueCheck = value);
 
   @override
   Widget build(BuildContext context) {
     _key = new PageStorageKey('${widget.did}');
     return new ExpansionTile(
       key: _key,
-      title: new Text(widget.name),
+      title: new Text(widget.did),
       children: <Widget>[
         new GestureDetector(
-          child: ListTile(
-            dense: true,
-            title: new Text("A"),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
+            child: ListTile(
+              dense: true,
+              title: new Text(widget.name),
+            ),
           ),
-          onTap: (){
+          onTap: () {
             return showDialog(
                 context: context,
-                barrierDismissible: false,
+                barrierDismissible: true,
                 builder: (BuildContext context) {
-                  return AlertDialog();
+                  return AlertDialog(
+                    contentPadding: EdgeInsets.all(0.0),
+                    content: Container(
+                      color: Color.fromRGBO(62, 71, 80, 1),
+                      width: 200.0,
+                      height: 130.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 2.0, right: 2.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Produit 1",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 13.0,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Qte : " + '$value',
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 13.0,
+                                          ),
+                                        ),
+                                        RaisedButton.icon(
+                                          color: Color.fromRGBO(62, 71, 80, 1),
+                                          label: Text(
+                                            "",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey),
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              value = value + 1;
+                                            });
+                                          },
+                                          icon: Icon(
+                                            Icons.add,
+                                          ),
+                                        ),
+                                        RaisedButton.icon(
+                                          color: Color.fromRGBO(62, 71, 80, 1),
+                                          label: Text(
+                                            "",
+                                            style: TextStyle(
+                                                color: Colors.blueGrey),
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (value > 0) {
+                                                value = value + -1;
+                                              }
+                                            });
+                                          },
+                                          icon: Icon(Icons.remove),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            flex: 2,
+                          ),
+                          SizedBox(height: 10.0),
+                          Expanded(
+                              child: FlatButton(
+                                textColor: Colors.white,
+                                color: Theme.of(context).primaryColor,
+                                splashColor: Colors.orangeAccent,
+                                child: Text('Valider'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )),
+                        ],
+                      ),
+                    ),
+                  );
                 });
           },
         ),

@@ -70,6 +70,12 @@ class ListProduct extends StatelessWidget {
     ),
     alignment: FractionalOffset.centerLeft,
     decoration: BoxDecoration(
+        boxShadow: [
+          new BoxShadow(
+              color: Colors.black54,
+              blurRadius:2,
+              spreadRadius: 1.0)
+        ],
         shape: BoxShape.circle,
         image: new DecorationImage(
             fit: BoxFit.fill,
@@ -87,9 +93,10 @@ class ListProduct extends StatelessWidget {
         borderRadius: new BorderRadius.circular(8.0),
         boxShadow: <BoxShadow>[
           new BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10.0,
-            offset: new Offset(0.0, 10.0),
+            color: Colors.black54,
+            blurRadius: 8.0,
+            spreadRadius: 5.0,
+            //  offset: new Offset(0.0, 10.0),
           ),
         ],
       ),
