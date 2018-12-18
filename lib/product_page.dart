@@ -5,6 +5,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'listproduct_page.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 String _ProductName(int id) {
   return 'Coca-cola';
@@ -34,6 +35,9 @@ class _ProductPageState extends State<ProductPage> {
 
   String barcode = "";
   int nbProduit=0;
+
+  //Nécessaire pour utiliser l'API google Map
+  GoogleMapController mapController;
 
   Container _BarCodeEmpty(){
     if (barcode!=""){
@@ -140,15 +144,13 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   @override
-  initState()
-  {
+  initState() {
     super.initState();
   }
 
   File galleryFile;
 
-  imageSelectorGallery() async
-  {
+  imageSelectorGallery() async {
     galleryFile = await ImagePicker.pickImage(
       source: ImageSource.gallery,
 // maxHeight: 50.0,
@@ -156,6 +158,10 @@ class _ProductPageState extends State<ProductPage> {
     );
     print("Vous avez selectionner la gallerie d'image : " + galleryFile.path);
     setState(() {});
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() { mapController = controller; });
   }
 
   @override
@@ -209,6 +215,7 @@ class _ProductPageState extends State<ProductPage> {
                 ],
               ),
             ),
+            /*
             Container(
               padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
               child: Column(
@@ -235,6 +242,34 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ],
               ),
+            ),*/
+            Container(
+              child:Column(
+                children: <Widget>[
+                  Center(
+                    child: SizedBox(
+                      width:300,
+                      height: 200,
+                      child: GoogleMap(
+                          onMapCreated: _onMapCreated),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            RaisedButton(
+              child: const Text('Go to London'),
+              onPressed: mapController == null ? null : () {
+                mapController.animateCamera(CameraUpdate.newCameraPosition(
+                  const CameraPosition(
+                    bearing: 270.0,
+                    target: LatLng(51.5160895, -0.1294527),
+                    tilt: 30.0,
+                    zoom: 17.0,
+                  ),
+                ));
+              },
             ),
           ],
         ),
@@ -243,7 +278,12 @@ class _ProductPageState extends State<ProductPage> {
 
       _BarCodeEmpty(),
     );
+
+
+
   }
+
+
 
   Widget displayImage()
   {

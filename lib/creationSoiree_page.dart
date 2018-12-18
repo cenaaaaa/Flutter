@@ -3,7 +3,9 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 
-//GOOGLE API KEY =  AIzaSyCexAj9Vx_1jyaj_GRjcabvHutIOx-diCQ
+//GOOGLE API KEY =  AIzaSyCexAj
+//
+// 9Vx_1jyaj_GRjcabvHutIOx-diCQ
 const googleApiKey = "AIzaSyCexAj9Vx_1jyaj_GRjcabvHutIOx-diCQ";
 
 class CreationSoireePage extends StatefulWidget {
