@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'login_page.dart';
 import 'home_page.dart';
 import 'account_manager.dart';
+import 'friends_list.dart';
 
 class AppBarScaffold extends StatelessWidget {
 
@@ -65,6 +66,20 @@ class AppBarScaffold extends StatelessWidget {
                       onTap:()
                       {
                         Navigator.of(context).pushNamed(AccountManagerPage.tag);
+                      }
+                  ),
+                ),
+              ),
+              Divider(
+                color: Color.fromRGBO(243, 146, 26, 1),
+              ),
+              Expanded(
+                child: Align(
+                  child: GestureDetector(
+                      child: Text('Ami(e)s', style:TextStyle(color: Colors.blueGrey, fontSize: 36)),
+                      onTap:()
+                      {
+                        Navigator.of(context).pushNamed(FriendsListPage.tag);
                       }
                   ),
                 ),
