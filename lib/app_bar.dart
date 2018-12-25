@@ -9,8 +9,9 @@ class AppBarScaffold extends StatelessWidget {
   static String tag = 'app-bar';
   final Widget body;
   final String title;
+  final Widget bottom;
 
-  AppBarScaffold({this.body, this.title});
+  AppBarScaffold({this.body, this.title,this.bottom});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class AppBarScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text('$title', textAlign: TextAlign.center),
         backgroundColor: Color.fromRGBO(243, 146, 26, 1),
+        bottom: bottom,
       ),
       drawer: Drawer(
         child:Container(
@@ -76,7 +78,7 @@ class AppBarScaffold extends StatelessWidget {
                       child: Text('Déconnexion',style:TextStyle(color: Colors.blueGrey, fontSize: 36)),
                       onTap:()
                       {
-                       Navigator.of(context).pushNamed(LoginPage.tag);
+                        Navigator.of(context).pushNamed(LoginPage.tag);
                       }
                   ),
                 ),

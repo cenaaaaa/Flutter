@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'product_page.dart';
-import 'home_page.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'dart:io';
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
+//Import des pages
+import 'home_page.dart';
+import 'product_page.dart';
 
 class ListProduct extends StatefulWidget {
   static String tag ='List-Product';
@@ -11,11 +17,15 @@ class ListProduct extends StatefulWidget {
 
 class _ListProductState extends State<ListProduct> {
 
+  int idCurrentUser = 1;
+  int idOrganizator = 2;
+  String barcode = "";
+
 
   static int numberCount=10;
 
   //A changer par la suite quand on aura les propriétés intrinsèques à chaque produit
-  static double quantite=0.0;
+  static double quantite=15.0;
   static double quantiteMax=15.0;
   static double ratio = quantite/quantiteMax;
 
@@ -59,21 +69,143 @@ class _ListProductState extends State<ListProduct> {
           ),
         ),
 
-        bottomNavigationBar:new Container(
-            color: Colors.orange,
-            height: 55.0,
-            child: new IconButton(
-              iconSize: 32.0,
-              color: Colors.white,
-              icon:Icon(Icons.add),
-              tooltip: 'Add a product',
-              onPressed:null ,
-            )
-
-        )
-
+        bottomNavigationBar: _addORscan(),
     );
+
   }
+
+  Widget _addORscan(){
+    if (idCurrentUser==idOrganizator) {
+      barcode="";
+      return new Container(
+          color: Colors.orange,
+          height: 55.0,
+          child: new IconButton(
+            iconSize: 32.0,
+            color: Colors.white,
+            icon: Icon(Icons.add),
+            tooltip: 'Add a product',
+            onPressed: null,
+          )
+      );
+    } else {
+      return new Container(
+        color: Colors.orange,
+        height: 55.0,
+        child: new IconButton(
+          iconSize: 32.0,
+          color: Colors.white,
+          icon: Icon(Icons.search),
+          onPressed: () {
+            showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => SimpleDialog(
+                  title: Text('Comment rechercher'),
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.photo_camera),
+                      title: Text('Scanner code barre'),
+                      onTap: barcodeScanning,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.create),
+                      title: Text('Ecrire code barre'),
+                      onTap: () {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Confirmation'),
+                            content: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: 'Saisir le code barre',
+                                border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                              ),
+                              onSubmitted: (String val) {
+                                barcode=val;
+                                try {
+                                  if(barcode.length != 13){
+                                    showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) => AlertDialog(
+                                          title: const Text('Erreur'),
+                                          content: Text(
+                                              'Taille du code barre incorrect'
+                                          ),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text('Ok'),
+                                              onPressed: () => Navigator.pop(context),
+                                            ),
+                                          ],
+                                        )
+                                    );
+                                  }else{
+                                    if(true) { //verifier existance du produit
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage()));
+                                    } else{
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    }
+                                  }
+                                }catch(e){
+
+                                }
+                              },
+                            ),
+                            actions: <Widget>[
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                )
+            );
+          },
+        ),
+      );
+    }
+
+  }
+
+  // Methode pour Scanner le CodeBarre
+  Future barcodeScanning() async {
+    try
+    {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this.barcode = barcode);
+      if(true) { //verifier existance du produit
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage()));
+      } else{
+        Navigator.pop(context);
+      }
+    }
+
+    on PlatformException catch (e)
+    {
+      if (e.code == BarcodeScanner.CameraAccessDenied)
+      {
+        setState(()
+        {
+          this.barcode = 'No camera permission!';
+        });
+      }
+      else
+      {
+        setState(() => this.barcode = 'Error Inconnu: $e');
+      }
+    }
+    on FormatException
+    {
+      setState(() => this.barcode = 'Rien Scanner.');
+    }
+    catch (e)
+    {
+      setState(() => this.barcode = 'Error Inconnu: $e');
+    }
+  }
+
 
   final ImageCircle = new Container(
     height: 75.0,

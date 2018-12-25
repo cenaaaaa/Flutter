@@ -35,12 +35,12 @@ class _ProductPageState extends State<ProductPage> {
 
   String barcode = "";
   int nbProduit=0;
+  int nbProduitRestant =15;
 
   //Nécessaire pour utiliser l'API google Map
   GoogleMapController mapController;
 
   Container _BarCodeEmpty(){
-    if (barcode!=""){
       return new Container(
         padding: EdgeInsets.all(5),
         child: Row(
@@ -81,9 +81,6 @@ class _ProductPageState extends State<ProductPage> {
                             FlatButton(
                               child: Text('Ok'),
 
-                              ///probleme lors du retour vers la liste des evenement, lors du clic sur le bouton retour
-                              ///on reviens sur la popup
-
                               onPressed: () => Navigator.of(context).pushNamed(ListProduct.tag), ///retour liste produits
                             )
                           ],
@@ -97,50 +94,6 @@ class _ProductPageState extends State<ProductPage> {
         ),
         color: Color.fromRGBO(52, 59, 69, 1),
       );
-    }
-  }
-
-  Widget _scanner(){
-    if (barcode==""){
-      return new Container(
-        child: RaisedButton(
-          child: Text(
-            'SCANNER',
-            style: TextStyle(color: Colors.white),
-          ),
-          color: Theme.of(context).primaryColor,
-          onPressed: barcodeScanning,
-          splashColor: Theme.of(context).splashColor,
-        ),
-      );
-    }else {
-      return new Container(
-          child: Row(
-              children: [
-                Text(
-                  'Nombre: ${nbProduit}  ',
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                  ),
-                ),
-                Column(
-                    children: [
-                      IconButton(
-                          icon: Icon(Icons.add_circle),
-                          color: Colors.green,
-                          onPressed: () => setState(() => nbProduit++)
-                      ),
-                      nbProduit!=0? IconButton(
-                        icon: Icon(Icons.do_not_disturb_on),
-                        color: Colors.red,
-                        onPressed: () => setState(() => nbProduit--),
-                      ):new Container(child: Text('\n\n'))
-                    ]
-                )
-              ]
-          )
-      );
-    }
   }
 
   @override
@@ -172,115 +125,138 @@ class _ProductPageState extends State<ProductPage> {
         title: Text('Description Produit'),
       ),
       backgroundColor: Color.fromRGBO(52, 59, 69, 1),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Image.network(
-                      'https://raw.githubusercontent.com/flutter/website/master/src/_includes/code/layout/lakes/images/lake.jpg',
-                      width: 200,
-                      height: 200,
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(bottom: 8),
-                          child: Text(
-                            '${name}',
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
+      body: ListView(
+        children: <Widget>[
+          Center(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image.network(
+                          'https://raw.githubusercontent.com/flutter/website/master/src/_includes/code/layout/lakes/images/lake.jpg',
+                          width: 200,
+                          height: 200,
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                '${name}',
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(bottom: 8),
-                          child: Text(
-                            'Prix: ${price}€',
-                            style: TextStyle(color: Colors.blueGrey),
-                          ),
-                        ),
-                        _scanner(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            /*
-            Container(
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              child: Column(
-                children: [
-                  Text(
-                    'Description du produit: \n\n',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(decoration: TextDecoration.underline,color: Colors.blueGrey, fontSize: 18.0),
-                  ),
-                  Text(
-                    '${description}\n\n',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(color: Colors.blueGrey),
-                  ),
-                  Text(
-                    'Code barre du produit: ',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(decoration: TextDecoration.underline,color: Colors.blueGrey, fontSize: 18.0),
-                  ),
-                  Text(
-                    '${barcode}',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(color: Colors.blueGrey),
-                  ),
-                ],
-              ),
-            ),*/
-            Container(
-              child:Column(
-                children: <Widget>[
-                  Center(
-                    child: SizedBox(
-                      width:300,
-                      height: 200,
-                      child: GoogleMap(
-                          onMapCreated: _onMapCreated),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                            Container(
+                              padding: EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                'Prix: ${price}€',
+                                style: TextStyle(color: Colors.blueGrey),
+                              ),
 
-            RaisedButton(
-              child: const Text('Go to London'),
-              onPressed: mapController == null ? null : () {
-                mapController.animateCamera(CameraUpdate.newCameraPosition(
-                  const CameraPosition(
-                    bearing: 270.0,
-                    target: LatLng(51.5160895, -0.1294527),
-                    tilt: 30.0,
-                    zoom: 17.0,
+                            ),
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'Nombre: ${nbProduit}/${nbProduitRestant}',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey
+                                    ),
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      nbProduit<nbProduitRestant? IconButton(
+                                          icon: Icon(Icons.add_circle),
+                                          color: Colors.green,
+                                          onPressed: () => setState(() => nbProduit ++)
+                                      ): new Container(child: Text('\n\n'),),
+                                      nbProduit!=0? IconButton(
+                                        icon: Icon(Icons.do_not_disturb_on),
+                                        color: Colors.red,
+                                        onPressed: () => setState(() => nbProduit --),
+                                      ):new Container(child: Text('\n\n'),)
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ));
-              },
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Description du produit: \n\n',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(decoration: TextDecoration.underline,color: Colors.blueGrey, fontSize: 18.0),
+                      ),
+                      Text(
+                        '${description}\n\n',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(color: Colors.blueGrey),
+                      ),
+                      Text(
+                        'Code barre du produit: ',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(decoration: TextDecoration.underline,color: Colors.blueGrey, fontSize: 18.0),
+                      ),
+                      Text(
+                        '${barcode}',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(color: Colors.blueGrey),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child:Column(
+                    children: <Widget>[
+                      Center(
+                        child: SizedBox(
+                          width:300,
+                          height: 200,
+                          child: GoogleMap(
+                              onMapCreated: _onMapCreated),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                RaisedButton(
+                  child: const Text('Go to London'),
+                  onPressed: mapController == null ? null : () {
+                    mapController.animateCamera(CameraUpdate.newCameraPosition(
+                      const CameraPosition(
+                        bearing: 270.0,
+                        target: LatLng(51.5160895, -0.1294527),
+                        tilt: 30.0,
+                        zoom: 17.0,
+                      ),
+                    ));
+                  },
+                ),
+                _BarCodeEmpty()
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-      bottomSheet:
-
-      _BarCodeEmpty(),
     );
-
-
-
   }
 
 
@@ -296,38 +272,4 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  // Methode pour Scanner le CodeBarre
-  Future barcodeScanning() async
-  {
-//imageSelectorGallery();
-
-    try
-    {
-      String barcode = await BarcodeScanner.scan();
-      setState(() => this.barcode = barcode);
-    }
-
-    on PlatformException catch (e)
-    {
-      if (e.code == BarcodeScanner.CameraAccessDenied)
-      {
-        setState(()
-        {
-          this.barcode = 'No camera permission!';
-        });
-      }
-      else
-      {
-        setState(() => this.barcode = 'Error Inconnu: $e');
-      }
-    }
-    on FormatException
-    {
-      setState(() => this.barcode = 'Rien Scanné.');
-    }
-    catch (e)
-    {
-      setState(() => this.barcode = 'Error Inconnu: $e');
-    }
-  }
 }
