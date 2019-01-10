@@ -13,6 +13,7 @@ import 'product_page.dart';
 import 'account_manager.dart';
 import 'creationSoiree_page.dart';
 import 'friends_list.dart';
+import 'CreateProduit.dart';
 
 
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
     AccountManagerPage.tag:(context) => AccountManagerPage(),
     CreationSoireePage.tag:(context) => CreationSoireePage(),
     FriendsListPage.tag:(context) => FriendsListPage(),
+    CreateProduct.tag:(context) => CreateProduct(),
   };
 
   @override

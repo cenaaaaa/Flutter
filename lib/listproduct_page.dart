@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 //Import des pages
 import 'home_page.dart';
 import 'product_page.dart';
+import 'CreateProduit.dart';
 
 class ListProduct extends StatefulWidget {
   static String tag ='List-Product';
@@ -57,7 +58,9 @@ class _ListProductState extends State<ListProduct> {
                 if(i == numberCount-1){
                   return ListTile(
                     title: Icon(Icons.add),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(CreateProduct.tag);
+                    },
                   );
                 }
                 return Column(
