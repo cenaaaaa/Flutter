@@ -1,13 +1,37 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class UserData {
+  static final allUsers = <UserData>[
+    UserData("John Doe", true),
+    UserData("Micheline", true),
+    UserData("Jeanne", true),
+    UserData("Jannine", true),
+    UserData("Fred", true),
+    UserData("Jammy", true),
+    UserData("Jacky", false),
+    UserData("Michel", false),
+    UserData("Turtle", false)
+  ];
+
   final String _name;
-  final bool _isMyFriend;
+  bool _friend;
 
   get name => this._name;
-  get isMyFriend => this._isMyFriend;
+  get friend => this._friend;
+  set friend(bool value) => this._friend = value;
 
-  UserData(this._name, this._isMyFriend);
+  UserData(this._name, this._friend);
+
+  static List<UserData> getFriendsList() {
+    return UserData.allUsers.toList().where((UserData user) => user._friend).toList();
+  }
+
+  static List<UserData> getUsersList({bool includeFriends : false}) {
+    return includeFriends
+        ? UserData.allUsers.toList()
+        : UserData.allUsers.toList().where((UserData user) => !user._friend).toList();
+  }
 }
 
 class FriendsListPage extends StatefulWidget {
@@ -18,16 +42,21 @@ class FriendsListPage extends StatefulWidget {
 }
 
 class _FriendsListPageState extends State<FriendsListPage> {
-  static final List<String> myFriendsName = <String>[
-    "John Doe", "Micheline", "Jeanne", "Jannine", "Fred", "Jammy"
-  ];
-  List<Widget> myFriendsCards = <Widget>[];
+  ListView userListView;
 
   @override
   Widget build(BuildContext context) {
+    var friendsList = UserData.getFriendsList();
+
+    userListView = ListView.builder(
+        itemCount: friendsList.length,
+        itemBuilder: (BuildContext context, int i) {
+          return _buildUserCard(context, user: friendsList[i], callback: () => setState(() {}));
+        }
+    );
+
     return Scaffold(
         appBar: AppBar(
-          /// Créer un Inkwell qui retourne vers la page de list event
           leading: InkWell(
             child: IconButton(
                 tooltip: "Menu",
@@ -44,7 +73,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
               tooltip: "Chercher un ami",
               icon: const Icon(Icons.search),
               onPressed: () async {
-                final List<Widget> selected = await showSearch<List<Widget>>(
+                await showSearch<List<Widget>>(
                     context: context,
                     delegate: SearchFriend()
                 );
@@ -56,12 +85,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
           //height: 500.0,
             color: Color.fromRGBO(52, 59, 69, 1),
             padding: EdgeInsets.all(8.0),
-            child: new ListView.builder(
-                itemCount: myFriendsName.length,
-                itemBuilder: (BuildContext context, int i) {
-                  return _buildRow(context, myFriendsName[i]);
-                }
-            )
+            child: userListView
         )
     );
   }
@@ -79,7 +103,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
       )
   );
 
-  static Widget _buildRow(BuildContext context, String name, { isMyFriend: true }){
+  static Widget _buildUserCard(BuildContext context, { UserData user, Function callback }){
     final imageCircle = new Container(
       height: 75.0,
       width: 75.0,
@@ -120,11 +144,17 @@ class _FriendsListPageState extends State<FriendsListPage> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(name, style: TextStyle(fontSize: 18.0)),
+                        Text(user.name, style: TextStyle(fontSize: 18.0)),
                         IconButton(
-                          icon: Icon(isMyFriend ? Icons.remove_circle : Icons.add_circle),
-                          color: Colors.blue,
-                          onPressed: () {},
+                          iconSize: 30.0,
+                          icon: Icon(user.friend ? Icons.remove_circle : Icons.add_circle),
+                          color: Colors.orange,
+                          onPressed: () {
+                            user.friend = !user.friend;
+                            if (callback != null) {
+                              callback();
+                            }
+                          },
                           /*icon: AnimatedIcon(
                                 icon: AnimatedIcons.add_event,
                                 progress: kAlwaysDismissedAnimation
@@ -137,7 +167,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
         )
     );
 
-    return InkWell(
+    return Container(
         child: Container(
             margin: const EdgeInsets.symmetric(
                 vertical: 16.0,
@@ -155,22 +185,6 @@ class _FriendsListPageState extends State<FriendsListPage> {
 }
 
 class SearchFriend extends SearchDelegate<List<Widget>> {
-  /*static final List<String> allUsersName = <String>[
-    "John Doe", "Micheline", "Jeanne", "Jannine", "Fred", "Jammy",
-    "Michel", "Jacky", "Turtle"
-  ];*/
-  static final List<UserData> allUsers = <UserData>[
-    UserData("John Doe", true),
-    UserData("Micheline", true),
-    UserData("Jeanne", true),
-    UserData("Jannine", true),
-    UserData("Fred", true),
-    UserData("Jammy", true),
-    UserData("Michel", false),
-    UserData("Jacky", false),
-    UserData("Turtle", false)
-  ];
-
   SearchFriend() : super();
 
   @override
@@ -178,7 +192,7 @@ class SearchFriend extends SearchDelegate<List<Widget>> {
     var appBar = super.appBarTheme(context);
     return appBar.copyWith(
         primaryIconTheme: IconThemeData(color: Colors.white),
-        /// Trouver comment mettre le hintText "Search" en blanc
+        /// TODO: Trouver comment mettre le hintText "Search" en blanc
         /// Ceci met juste ce que l'on rentre en blanc
         textTheme: TextTheme(
             title: TextStyle(color: Colors.white, fontSize: 20)
@@ -201,13 +215,23 @@ class SearchFriend extends SearchDelegate<List<Widget>> {
 
   @override
   Widget buildResults(BuildContext context) {
+    var resultsList = UserData.getUsersList().where(
+            (UserData user) {
+          return user.name.toString().toUpperCase().contains(this.query.toUpperCase());
+        }
+    ).toList();
     return Container(
         color: Color.fromRGBO(52, 59, 69, 1),
         padding: EdgeInsets.all(8.0),
         child: new ListView.builder(
-            itemCount: allUsers.length,
+            itemCount: resultsList.length,
             itemBuilder: (BuildContext context, int i) {
-              return _FriendsListPageState._buildRow(context, allUsers[i].name, isMyFriend: allUsers[i].isMyFriend);
+              final result = resultsList[i];
+              return _FriendsListPageState._buildUserCard(
+                  context,
+                  user: result,
+                  callback: () => Navigator.of(context).pop()
+              );
             }
         )
     );
@@ -216,7 +240,14 @@ class SearchFriend extends SearchDelegate<List<Widget>> {
   @override
   Widget buildSuggestions(BuildContext context) {
     return Container(
-        color: Color.fromRGBO(52, 59, 69, 1)
+        color: Color.fromRGBO(52, 59, 69, 1),
+        child: _SuggestionList(
+            query: this.query,
+            onSelected: (String suggestions) {
+              this.query = suggestions;
+              showResults(context);
+            }
+        )
     );
   }
 
@@ -224,13 +255,59 @@ class SearchFriend extends SearchDelegate<List<Widget>> {
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       IconButton(
-          tooltip: "Clear",
+          tooltip: "Effacer",
           icon: const Icon(Icons.clear),
           onPressed: () {
             query = "";
           }
       )
     ];
+  }
+}
+
+class _SuggestionList extends StatefulWidget {
+  final ValueChanged<String> onSelected;
+  final String query;
+
+  _SuggestionList({this.query, this.onSelected});
+
+  @override
+  _SuggestionListState createState() => _SuggestionListState(query: query, onSelected: onSelected);
+}
+
+class _SuggestionListState extends State<_SuggestionList> {
+  final ValueChanged<String> onSelected;
+  final List<String> suggestions = <String>[
+    "Billy", "Micheline", "Jeanne"
+  ];
+  String query;
+
+  _SuggestionListState({this.query, this.onSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme.subhead.copyWith(color: Colors.white);
+    return ListView.builder(
+        itemCount: suggestions.length,
+        itemBuilder: (BuildContext context, int i) {
+          final suggestion = suggestions[i];
+          return ListTile(
+              title: RichText(
+                  text: TextSpan(
+                      text: suggestion.substring(0, min(suggestion.length, query.length)),
+                      style: textTheme.copyWith(fontWeight: FontWeight.bold),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: suggestion.substring(min(suggestion.length, query.length)),
+                            style: textTheme
+                        )
+                      ]
+                  )
+              ),
+              onTap: () => onSelected(suggestion)
+          );
+        }
+    );
   }
 }
 
