@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'app_bar.dart';
 import 'listproduct_page.dart';
 import 'creationSoiree_page.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'Party.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
@@ -20,6 +24,31 @@ class _HomePageState extends State<HomePage> {
   static List soireePartUser = [1, 2, 3, 4, 5, 6, 7, 8, 9]; //id de la soiree participante de l'user
   int longueurPart = soireePartUser.length;
 
+  List<Party> party;
+
+  Future<Party> getData() async {
+    /// Insertion de l'URL contenant le json avec les informations à récupérer
+    final response = await http.get('https://raw.githubusercontent.com/ZygoMatic74/Fake-Json/master/party/parties/1/parties.json',
+        headers: {
+          "Accept": "application/json"
+        });
+
+    this.setState((){
+      party= emptyFromJson(response.body);
+    });
+
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.getData();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -36,8 +65,8 @@ class _HomePageState extends State<HomePage> {
     final feteOrgan = GridView.count(
       crossAxisCount: nombreFetePerLigne,
       scrollDirection: Axis.vertical,
-      children: List.generate((longueurOrg+1), (index) {
-        if (index==longueurOrg){
+      children: List.generate((party.length+1), (index) {
+        if (index==party.length){
           return Center(
               child: GestureDetector(
                   child:Container(
@@ -210,4 +239,10 @@ class _HomePageState extends State<HomePage> {
         )
     );
   }
+}
+
+
+List<Party> emptyFromJson(String str) {
+  final jsonData = json.decode(str);
+  return new List<Party>.from(jsonData.map((x) => Party.fromJson(x)));
 }

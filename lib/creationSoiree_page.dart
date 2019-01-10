@@ -8,6 +8,48 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 // 9Vx_1jyaj_GRjcabvHutIOx-diCQ
 const googleApiKey = "AIzaSyCexAj9Vx_1jyaj_GRjcabvHutIOx-diCQ";
 
+///Formatage d'une liste de produits
+/*
+class ProductList{
+  List<Product> products;
+
+  ProductList({
+    this.products
+  });
+
+  factory ProductList.fromJson(List<dynamic> parsedJson)
+  {
+    List<Product> products = new List<Product>();
+    products = parsedJson.map((i)=> Product.fromJson(i)).toList();
+
+    return new ProductList(
+        products: products
+    );
+  }
+
+}*/
+
+class Product {
+  int id;
+  String name;
+  String description;
+  double price;
+  int quantity;
+
+  Product({this.id, this.name, this.description, this.price});
+
+  factory Product.fromJson(Map<String, dynamic> parsedJson)
+  {
+    return new Product(
+        id: parsedJson['id'],
+        name: parsedJson['name'],
+        description: parsedJson['description'],
+        price: parsedJson['price']
+    );
+  }
+
+}
+
 class CreationSoireePage extends StatefulWidget {
   static String tag = 'creaSoiree-page';
 
@@ -26,7 +68,13 @@ class _CreationSoireeState extends State<CreationSoireePage> {
       text: "Commentaires"); //Controller pour les comments
   var _controller3 = new TextEditingController(text: "Adresse");
   var _controller4 = new TextEditingController(text: "recherche Produit");
+
+  //Liste de roduits qui sera reçue depuis l'API sous forme de JSON
+  List<dynamic> listFromAPI = [];
+
+
   static List products = ['produit1', 'produit2'];
+
   static List invites = ['ami1', 'ami2'];
   Map data = new HashMap();
 
@@ -35,22 +83,44 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     print('$key: $value'); //string interpolation in action
   }
 
-  /*String nouveauProduit() {
-    return "aa";
-  }
+  /// Fonction récupérant les informations d'un produit pour les retourner permettant
+  /// l'ajout à la liste des produits choisis par l'utilisateur.
+  Product nouveauProduitToList() {
 
+    int i = 0; //Indice du produit que l'utilisateur aura choisi
+
+// Test d'ajout de produit en dur
+    Product p = new Product();
+    p.id = 1;
+    p.name = "testeur";
+    p.quantity = 5;
+    listFromAPI.add(p);
+    p = listFromAPI[0];
+
+    //Popup affichant les produits de l'API
+
+    //p = listFromAPI[i]; récupération du produit sélectionné
+
+    //Choix de la quantité
+    //p.quantity = récupérer quantité souhaitée
+
+    //Renvoyer le produit correspondant à l'indice de l'objet
+    // cliqué par l'utilisateur avec sa quantité
+    return p;
+  }
+/*
   String nouvelInvite() {
     return "aa";
   }*/
 
-  final List<dynamic> elementList = ["a", "b", "c", "d", "e"];
-  final List<dynamic> elementList2 = ["1", "2", "3", "4", "5"];
+  /// Liste des produits séléctionnés par l'utilisateur
+  List<dynamic> elementList = [];
 
   List<Widget> _getChildren() {
     List<Widget> children = [];
     for (int i = 0; i < elementList.length; i++) {
       children.add(
-        new MyExpansionTile(elementList[i], elementList2[i]),
+        new Text(elementList[i].name + "  x" + elementList[i].quantity.toString()),
       );
     }
     return children;
@@ -146,11 +216,11 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     final ajoutProduit = RaisedButton.icon(
       color: Color.fromRGBO(62, 71, 80, 1),
       label: Text(
-        "Add Produits",
+        "Ajouter un produit",
         style: TextStyle(color: Colors.blueGrey),
       ),
       onPressed: () {
-        //products.add(nouveauProduit());
+        elementList.add(nouveauProduitToList());
         setState(() {});
       },
       icon: Icon(Icons.add),
@@ -159,7 +229,7 @@ class _CreationSoireeState extends State<CreationSoireePage> {
     final ajoutInvite = RaisedButton.icon(
       color: Color.fromRGBO(62, 71, 80, 1),
       label: Text(
-        "Ajout Invite",
+        "Ajouter un invité",
         style: TextStyle(color: Colors.blueGrey),
       ),
       onPressed: () {
@@ -312,10 +382,8 @@ class _CreationSoireeState extends State<CreationSoireePage> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("Nouvelle Soirée",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 35,
-            )),
+          textAlign: TextAlign.center,
+        ),
         backgroundColor: Colors.orange,
       ),
       body: body,
