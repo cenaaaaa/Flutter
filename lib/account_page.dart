@@ -256,6 +256,7 @@ class _AccountPageState extends State<AccountPage> {
           ),
           suffixIcon: GestureDetector(
             onTap: () {
+              
               setState(() {
                 _obscureText2 = !_obscureText2;
               });
