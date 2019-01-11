@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 //Import des pages
 import 'home_page.dart';
 import 'product_page.dart';
 import 'CreateProduit.dart';
+import 'package:mobile/PartyInformation.dart';
 
 class ListProduct extends StatefulWidget {
   static String tag ='List-Product';
@@ -30,6 +34,30 @@ class _ListProductState extends State<ListProduct> {
   static double quantiteMax=15.0;
   static double ratio = quantite/quantiteMax;
 
+  List<PartyInformation> partyinfo;
+
+  Future<PartyInformation> getData() async {
+    /// Insertion de l'URL contenant le json avec les informations à récupérer
+    final response = await http.get('https://raw.githubusercontent.com/ZygoMatic74/Fake-Json/master/party/information/3/party.json',
+        headers: {
+          "Accept": "application/json"
+        });
+
+    this.setState((){
+      partyinfo= emptyFromJson(response.body);
+    });
+
+
+  }
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.getData();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -39,7 +67,8 @@ class _ListProductState extends State<ListProduct> {
             child: Icon(Icons.keyboard_return),
             onTap: () => Navigator.of(context).pushNamed(HomePage.tag),
           ),
-          title: new Text('La mega teuf'),
+          ///Titre de la soirée
+          title: new Text(partyinfo[0].information.title),
           actions: <Widget>[
             Theme(
                 data: ThemeData(
@@ -53,9 +82,9 @@ class _ListProductState extends State<ListProduct> {
           color: Color.fromRGBO(52, 59, 69, 1),
           padding: EdgeInsets.all(8.0),
           child: new ListView.builder(
-              itemCount: numberCount,
+              itemCount: partyinfo.length+2,
               itemBuilder:(BuildContext context , int i){
-                if(i == numberCount-1){
+                if(i == partyinfo.length+1){
                   return ListTile(
                     title: Icon(Icons.add),
                     onTap: () {
@@ -63,11 +92,13 @@ class _ListProductState extends State<ListProduct> {
                     },
                   );
                 }
-                return Column(
-                  children: <Widget>[
-                    _buidRow(context,i)
-                  ],
-                );
+                else{
+                  return Column(
+                    children: <Widget>[
+                      _buidRow(context,i)
+                    ],
+                  );
+                }
               }
           ),
         ),
@@ -367,7 +398,8 @@ class _buildShowDialogState extends State<buildShowDialog> {
                 Container(
                   padding: const EdgeInsets.all(0),
                   child:Image.network(
-                    'https://raw.githubusercontent.com/flutter/website/master/src/_includes/code/layout/lakes/images/lake.jpg',
+                    ///Image produit !!
+                    'http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040',
                     height: 250,
                     width: 250,
                   ),
@@ -413,3 +445,7 @@ class _buildShowDialogState extends State<buildShowDialog> {
   }
 }
 
+List<PartyInformation> emptyFromJson(String str) {
+  final jsonData = json.decode(str);
+  return new List<PartyInformation>.from(jsonData.map((x) => PartyInformation.fromJson(x)));
+}

@@ -106,12 +106,14 @@ class _HomePageState extends State<HomePage> {
                       child: GridTile(
                         footer: GridTileBar(
                           backgroundColor: Colors.black87,
-                          title: Text("Méga teuf ${soireeOrgUser[index]}",
+                          ///Titre de la soirée
+                          title: Text(party[index].title,
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 15)),
                         ),
                         child: Image.network(
-                            'http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040'),
+                          ///Image de la soirée
+                            party[index].image),
                       ),
                     ),
                     padding: EdgeInsets.only(

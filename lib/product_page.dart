@@ -117,6 +117,28 @@ class _ProductPageState extends State<ProductPage> {
     setState(() { mapController = controller; });
   }
 
+  final ImageCircle = new Container(
+    height: 200.0,
+    width: 200.0,
+    margin: new EdgeInsets.symmetric(
+        vertical: 12.5
+    ),
+    alignment: FractionalOffset.centerLeft,
+    decoration: BoxDecoration(
+        boxShadow: [
+          new BoxShadow(
+              color: Colors.black54,
+              blurRadius:2,
+              spreadRadius: 1.0)
+        ],
+        shape: BoxShape.circle,
+        image: new DecorationImage(
+            fit: BoxFit.fill,
+            image: NetworkImage('http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040')
+        )
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
 
@@ -134,14 +156,7 @@ class _ProductPageState extends State<ProductPage> {
                   padding: EdgeInsets.all(10),
                   child: Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Image.network(
-                          'https://raw.githubusercontent.com/flutter/website/master/src/_includes/code/layout/lakes/images/lake.jpg',
-                          width: 200,
-                          height: 200,
-                        ),
-                      ),
+                      ImageCircle,
                       Expanded(
                         child: Column(
                           children: [
