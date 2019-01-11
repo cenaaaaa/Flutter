@@ -63,11 +63,11 @@ class _CreationSoireeState extends State<CreationSoireePage> {
   TimeOfDay _time = TimeOfDay.now();
   int userId = 4;
   var _controller1 = new TextEditingController(
-      text: "Nom de la Soiree"); //Controller pour le nom de Soirée
+      text: ""); //Controller pour le nom de Soirée
   var _controller2 = new TextEditingController(
-      text: "Commentaires"); //Controller pour les comments
-  var _controller3 = new TextEditingController(text: "Adresse");
-  var _controller4 = new TextEditingController(text: "recherche Produit");
+      text: ""); //Controller pour les comments
+  var _controller3 = new TextEditingController(text: "");
+  var _controller4 = new TextEditingController(text: "");
 
   //Liste de roduits qui sera reçue depuis l'API sous forme de JSON
   List<dynamic> listFromAPI = [];
