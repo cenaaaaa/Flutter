@@ -374,6 +374,29 @@ class buildShowDialog extends StatefulWidget {
 class _buildShowDialogState extends State<buildShowDialog> {
   bool tap;
 
+  List<PartyInformation> partyinfo;
+
+  Future<PartyInformation> getData() async {
+    /// Insertion de l'URL contenant le json avec les informations à récupérer
+    final response = await http.get('https://raw.githubusercontent.com/ZygoMatic74/Fake-Json/master/party/information/3/party.json',
+        headers: {
+          "Accept": "application/json"
+        });
+
+    this.setState((){
+      partyinfo= emptyFromJson(response.body);
+    });
+
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -398,8 +421,8 @@ class _buildShowDialogState extends State<buildShowDialog> {
                 Container(
                   padding: const EdgeInsets.all(0),
                   child:Image.network(
-                    ///Image produit !!
-                    'http://earlycoke.com/images/martin_metalsigns_81.jpg?crc=4247472040',
+                    ///Image soirée !!
+                    'https://raw.githubusercontent.com/flutter/website/master/src/_includes/code/layout/lakes/images/lake.jpg',
                     height: 250,
                     width: 250,
                   ),
@@ -415,7 +438,7 @@ class _buildShowDialogState extends State<buildShowDialog> {
                 ),
                 ListTile(
                   leading: Icon(Icons.location_on,color: Colors.blueGrey,),
-                  title: Text('23 rue genial, 59300 Valenciennes',
+                  title: Text(partyinfo[0].information.address,
                       style:TextStyle(fontSize: 16.0, color: Colors.blueGrey,)),
                 ),
                 ListTile(

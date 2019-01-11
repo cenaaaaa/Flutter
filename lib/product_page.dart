@@ -229,11 +229,6 @@ class _ProductPageState extends State<ProductPage> {
                         style: TextStyle(color: Colors.blueGrey),
                       ),
                       Text(
-                        'Code barre du produit: ',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(decoration: TextDecoration.underline,color: Colors.blueGrey, fontSize: 18.0),
-                      ),
-                      Text(
                         '${barcode}',
                         textAlign: TextAlign.justify,
                         style: TextStyle(color: Colors.blueGrey),
@@ -256,7 +251,7 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ),
                 RaisedButton(
-                  child: const Text('Go to London'),
+                  child: const Text('Trouver le magasin le plus proche'),
                   onPressed: mapController == null ? null : () {
                     mapController.animateCamera(CameraUpdate.newCameraPosition(
                       const CameraPosition(
