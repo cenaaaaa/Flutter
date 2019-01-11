@@ -158,55 +158,58 @@ class _ProductPageState extends State<ProductPage> {
                     children: [
                       ImageCircle,
                       Expanded(
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(bottom: 8),
-                              child: Text(
-                                '${name}',
-                                style: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(bottom: 8),
+                                child: Text(
+                                  '${name}',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(bottom: 8),
-                              child: Text(
-                                'Prix: ${price}€',
-                                style: TextStyle(color: Colors.blueGrey),
-                              ),
+                              Container(
+                                padding: EdgeInsets.only(bottom: 8),
+                                child: Text(
+                                  'Prix: ${price}€',
+                                  style: TextStyle(color: Colors.blueGrey),
+                                ),
 
-                            ),
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Nombre: ${nbProduit}/${nbProduitRestant}',
-                                    style: TextStyle(
-                                      color: Colors.blueGrey
-                                    ),
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      nbProduit<nbProduitRestant? IconButton(
-                                          icon: Icon(Icons.add_circle),
-                                          color: Colors.green,
-                                          onPressed: () => setState(() => nbProduit ++)
-                                      ): new Container(child: Text('\n\n'),),
-                                      nbProduit!=0? IconButton(
-                                        icon: Icon(Icons.do_not_disturb_on),
-                                        color: Colors.red,
-                                        onPressed: () => setState(() => nbProduit --),
-                                      ):new Container(child: Text('\n\n'),)
-                                    ],
-                                  )
-                                ],
                               ),
-                            )
-                          ],
-                        ),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(45, 0, 0, 0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Nombre: ${nbProduit}/${nbProduitRestant}',
+                                      style: TextStyle(
+                                          color: Colors.blueGrey
+                                      ),
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        nbProduit<nbProduitRestant? IconButton(
+                                            icon: Icon(Icons.add_circle),
+                                            color: Colors.green,
+                                            onPressed: () => setState(() => nbProduit ++)
+                                        ): new Container(child: Text('\n\n'),),
+                                        nbProduit!=0? IconButton(
+                                          icon: Icon(Icons.do_not_disturb_on),
+                                          color: Colors.red,
+                                          onPressed: () => setState(() => nbProduit --),
+                                        ):new Container(child: Text('\n\n'),)
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
                       ),
                     ],
                   ),
